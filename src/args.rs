@@ -12,12 +12,12 @@ pub fn parse_args(mut args: Args) -> ArgOptions {
     let mut ignore_case = false;
     args.next();
     let sub_str = args.next().unwrap_or_else(|| {
-        eprintln!("Invalid amout of arguments");
+        eprintln!("Invalid amount of arguments");
         print_help();
         exit(1);
     });
     let path = args.next().unwrap_or_else(|| {
-        eprintln!("Invalid amout of arguments");
+        eprintln!("Invalid amount of arguments");
         print_help();
         exit(1);
     });
