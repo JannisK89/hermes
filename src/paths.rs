@@ -1,6 +1,6 @@
 use std::{fs, io};
 
-// Gets named for all files in a folder and subfolder if recursive is true
+// Gets path for all files in a folder and subfolder if recursive is true
 pub fn get_file_paths(dir: &str, recursive: bool) -> Result<Vec<String>, io::Error> {
     let mut files: Vec<String> = vec![];
     let directory = fs::read_dir(dir)?;
@@ -10,13 +10,10 @@ pub fn get_file_paths(dir: &str, recursive: bool) -> Result<Vec<String>, io::Err
         let is_file = file_type.is_file();
 
         if is_file {
-            files.push(String::from(
-                dir.to_owned()
-                    + file.path().to_str().unwrap_or_else(|| {
-                        eprintln!("Could not convert file path to string: {:?}", file.path());
-                        ""
-                    }),
-            ));
+            files.push(String::from(file.path().to_str().unwrap_or_else(|| {
+                eprintln!("Could not convert file path to string: {:?}", file.path());
+                ""
+            })));
         } else {
             if recursive {
                 let path = file.path();
