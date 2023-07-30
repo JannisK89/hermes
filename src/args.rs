@@ -4,7 +4,7 @@ pub struct ArgOptions {
     pub sub_str: String,
     pub path: String,
     pub recursive: bool,
-    ignore_case: bool,
+    pub ignore_case: bool,
 }
 
 pub fn parse_args(mut args: Args) -> ArgOptions {
@@ -29,7 +29,6 @@ pub fn parse_args(mut args: Args) -> ArgOptions {
             _ => (),
         }
     }
-    println!("Parsing args finished");
 
     ArgOptions {
         sub_str,
