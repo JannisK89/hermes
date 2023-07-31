@@ -1,5 +1,6 @@
-use std::{env::Args, process::exit};
+use std::process::exit;
 
+#[derive(Debug, PartialEq)]
 pub struct ArgOptions {
     pub sub_str: String,
     pub path: String,
@@ -7,7 +8,7 @@ pub struct ArgOptions {
     pub ignore_case: bool,
 }
 
-pub fn parse_args(mut args: Args) -> ArgOptions {
+pub fn parse_args(mut args: Box<dyn Iterator<Item = String>>) -> ArgOptions {
     let mut recursive = false;
     let mut ignore_case = false;
     args.next();
@@ -54,4 +55,50 @@ Example: hermes username  ./Users.txt
 -i, --ignore-case     Ignore case.
 "
     )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parse_args_returns_argoptions() {
+        let args_one = Box::new(
+            vec![
+                String::from("Skip me"),
+                String::from("substring"),
+                String::from("path"),
+                String::from("-i"),
+                String::from("-r"),
+            ]
+            .into_iter(),
+        );
+        let args_two = Box::new(
+            vec![
+                String::from("Skip me"),
+                String::from("substring"),
+                String::from("path"),
+            ]
+            .into_iter(),
+        );
+
+        let args_one = parse_args(args_one);
+        let args_two = parse_args(args_two);
+
+        let expected_one = ArgOptions {
+            sub_str: String::from("substring"),
+            path: String::from("path"),
+            ignore_case: true,
+            recursive: true,
+        };
+        let expected_two = ArgOptions {
+            sub_str: String::from("substring"),
+            path: String::from("path"),
+            ignore_case: false,
+            recursive: false,
+        };
+
+        assert_eq!(args_one, expected_one);
+        assert_eq!(args_two, expected_two);
+    }
 }
