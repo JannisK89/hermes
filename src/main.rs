@@ -13,6 +13,7 @@ mod files;
 fn main() {
     let mut threads = vec![];
     let args = env::args();
+    let args = Box::new(args);
     let args = args::parse_args(args);
     let args = Arc::new(args);
     let is_dir = fs::metadata(&args.path)

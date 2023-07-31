@@ -55,3 +55,25 @@ pub fn process_file(content: &str, args: &ArgOptions) {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn find_substring_returns_marked_lines() {
+        let line_one = "You have power over your mind - not outside events. Realize this, and you will find strength.";
+        let line_two =
+            "dwell on the beauty of life. watch the stars, and see yourself running with them.";
+
+        let expected_one = "You have \x1b[91;4mpower\x1b[0m over your mind - not outside events. Realize this, and you will find strength.";
+        let expected_two =
+            "dwell on the \x1b[91;4mBEAUTY\x1b[0m of life. watch the stars, and see yourself running with them.";
+
+        let result_one = find_substr(line_one, "power", false).unwrap();
+        let result_two = find_substr(line_two, "BEAUTY", true).unwrap();
+
+        assert_eq!(result_one, expected_one);
+        assert_eq!(result_two, expected_two);
+    }
+}
