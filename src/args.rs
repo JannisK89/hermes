@@ -46,8 +46,9 @@ Usage:
 hermes SUBSTRING  ./PATH
 hermes SUBSTRING  ./PATH_TO_FILE
 
-Example: hermes ./Users
-Example: hermes username  ./Users.txt
+Example: hermes John ./Users -r -i
+
+Example: hermes Jane ./Users.txt 
 
 
 -h, --help            Print help.
